@@ -21,10 +21,20 @@ database.connect();
 //middlewares
 app.use(express.json());
 app.use(cookieParser());
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://studynotionfe-a5mm69uz1-omptl164703s-projects-89586688.vercel.app",
+];
+
 app.use(
   cors({
-    origin:
-      "https://studynotionfe-a5mm69uz1-omptl164703s-projects-89586688.vercel.app",
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
