@@ -23,13 +23,18 @@ app.use(express.json());
 app.use(cookieParser());
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://studynotionfe-a5mm69uz1-omptl164703s-projects-89586688.vercel.app",
+  "https://studynotionfe-nzg07kqa0-omptl164703s-projects-89586688.vercel.app",
 ];
 
 app.use(
   cors({
     origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
+      const isAllowed =
+        !origin ||
+        allowedOrigins.includes(origin) ||
+        origin.endsWith(".vercel.app");
+
+      if (isAllowed) {
         callback(null, true);
       } else {
         callback(new Error("Not allowed by CORS"));
